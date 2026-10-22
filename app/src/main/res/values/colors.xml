@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ce_blue">#123B63</color>
+    <color name="ce_blue_dark">#0A223A</color>
+    <color name="ce_silver">#C7CCD2</color>
+    <color name="ce_white">#FFFFFF</color>
+    <color name="ce_black">#000000</color>
+</resources>
