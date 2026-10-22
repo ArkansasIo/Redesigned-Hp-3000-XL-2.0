@@ -29,7 +29,6 @@ import java.util.Locale
 private val Navy = Color(0xFF003399)
 private val Window = Color(0xFFF4F6FA)
 private val Border = Color(0xFF6E7785)
-private val TextDark = Color(0xFF18202A)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,12 +60,8 @@ private fun Hp3000Shell() {
     MaterialTheme(colorScheme = lightColorScheme(primary = Navy, surface = Window)) {
         Box(Modifier.fillMaxSize().background(background)) {
             if (app == null) Desktop { app = it } else AppWindow(
-                app = app!!,
-                dark = dark,
-                volume = volume,
-                onDark = { dark = !dark },
-                onVolume = { volume = !volume },
-                onClose = { app = null }
+                app = app!!, dark = dark, volume = volume,
+                onDark = { dark = !dark }, onVolume = { volume = !volume }, onClose = { app = null }
             )
             if (start) StartMenu(onOpen = { app = it; start = false }, onClose = { start = false })
             Taskbar(startOpen = start, volume = volume, onStart = { start = !start }, onHome = { app = null; start = false })
@@ -81,9 +76,8 @@ private fun Desktop(onOpen: (CeApp) -> Unit) {
             Text("HP 3000 XL", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
             Text("Color Mobile Edition", color = Color.White, fontSize = 12.sp)
         }
-        val apps = CeApp.entries
         Column(Modifier.padding(10.dp).verticalScroll(rememberScrollState())) {
-            apps.chunked(3).forEach { row ->
+            CeApp.entries.chunked(3).forEach { row ->
                 Row(Modifier.fillMaxWidth().padding(bottom = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     row.forEach { DesktopTile(it, onOpen) }
                     repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
@@ -95,11 +89,7 @@ private fun Desktop(onOpen: (CeApp) -> Unit) {
 
 @Composable
 private fun RowScope.DesktopTile(app: CeApp, onOpen: (CeApp) -> Unit) {
-    Card(
-        Modifier.weight(1f).height(82.dp).clickable { onOpen(app) },
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = .93f)),
-        shape = RoundedCornerShape(4.dp)
-    ) {
+    Card(Modifier.weight(1f).height(82.dp).clickable { onOpen(app) }, colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = .93f)), shape = RoundedCornerShape(4.dp)) {
         Column(Modifier.fillMaxSize().padding(6.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Text(app.icon, fontSize = 24.sp)
             Text(app.title, fontSize = 10.sp, textAlign = TextAlign.Center, maxLines = 2)
@@ -124,9 +114,7 @@ private fun BoxScope.Taskbar(startOpen: Boolean, volume: Boolean, onStart: () ->
 private fun BoxScope.StartMenu(onOpen: (CeApp) -> Unit, onClose: () -> Unit) {
     Column(Modifier.width(310.dp).align(Alignment.BottomStart).padding(start = 4.dp, bottom = 46.dp).background(Color.White).border(1.dp, Navy).padding(5.dp)) {
         Text("HP 3000 XL  •  PRE-ALPHA", Modifier.fillMaxWidth().background(Navy).padding(9.dp), color = Color.White, fontWeight = FontWeight.Bold)
-        listOf(CeApp.FileExplorer, CeApp.PocketWord, CeApp.PocketExcel, CeApp.Inbox, CeApp.Calendar, CeApp.Calculator, CeApp.Internet, CeApp.ControlPanel, CeApp.About).forEach {
-            MenuItem("${it.icon}  ${it.title}") { onOpen(it) }
-        }
+        listOf(CeApp.FileExplorer, CeApp.PocketWord, CeApp.PocketExcel, CeApp.Inbox, CeApp.Calendar, CeApp.Calculator, CeApp.Internet, CeApp.ControlPanel, CeApp.About).forEach { MenuItem("${it.icon}  ${it.title}") { onOpen(it) } }
         HorizontalDivider()
         MenuItem("⏻  Close Menu") { onClose() }
     }
@@ -174,8 +162,8 @@ private fun AboutView() {
         InfoRow("Channel", BuildInfo.RELEASE_CHANNEL.uppercase())
         InfoRow("Developer", BuildInfo.DEVELOPER)
         InfoRow("Package", BuildInfo.PACKAGE_NAME)
-        InfoRow("Minimum Android", "API ${BuildInfo.MIN_ANDROID}")
-        InfoRow("Target SDK", BuildInfo.TARGET_ANDROID.toString())
+        InfoRow("Minimum Android", "API ${BuildInfo.MIN_ANDROID_API}")
+        InfoRow("Target SDK", BuildInfo.TARGET_ANDROID_API.toString())
         Text("Independent recreation. Microsoft Windows CE and HP proprietary firmware, ROMs, binaries and copyrighted system assets are not included.", fontSize = 12.sp)
     }
 }
@@ -202,6 +190,5 @@ private fun AboutView() {
 
 @Composable private fun TerminalView() { var input by remember { mutableStateOf("") }; Column { Text("HP3000XL Terminal", fontWeight = FontWeight.Bold); Text("Restricted command shell. No arbitrary code execution.", fontSize = 11.sp); Spacer(Modifier.height(8.dp)); BasicTextField(input, { input = it }, Modifier.fillMaxWidth().background(Color.Black).padding(10.dp), textStyle = LocalTextStyle.current.copy(color = Color.White, fontFamily = FontFamily.Monospace)); Text("\n> $input", fontFamily = FontFamily.Monospace) } }
 
-@Composable private fun MenuItem(label: String, onClick: () -> Unit) { Row(Modifier.fillMaxWidth().clickable { onClick() }.padding(9.dp), verticalAlignment = Alignment.CenterVertically) { Text(label, fontSize = 13.sp) } }
-
-@Composable private fun MenuPage(menu: String, onBack: () -> Unit) { Column(Modifier.padding(16.dp)) { Text(menu, fontSize = 22.sp, fontWeight = FontWeight.Bold); Button(onClick = onBack) { Text("Back") } } }
+@Composable private fun MenuItem(label: String, onClick: () -> Unit) { Row(Modifier.fillMaxWidth().clickable { onClick() }.padding(9.dp), verticalAlignment = Alignment.CenterVertically) { Text(label, fontSize = 13.sp) }
+}
