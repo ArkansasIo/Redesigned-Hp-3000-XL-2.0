@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Redesigned HP 3000 XL 2.0</string>
+    <string name="app_codename">Color Mobile Edition</string>
+    <string name="developer_name">ArkansasIo Development</string>
+    <string name="release_channel">PRE-ALPHA</string>
+</resources>
