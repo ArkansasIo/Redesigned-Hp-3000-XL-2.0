@@ -1,43 +1,94 @@
-name: Build Android APK
+name: Android APK Release
 
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
-    name: Build debug APK
+    name: Build Android APKs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
+
       - name: Use preinstalled Android SDK
         run: |
           echo "ANDROID_HOME=${ANDROID_HOME:-/usr/local/lib/android/sdk}" >> "$GITHUB_ENV"
           echo "PATH=${ANDROID_HOME:-/usr/local/lib/android/sdk}/platform-tools:${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin:$PATH" >> "$GITHUB_ENV"
+
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses >/dev/null 2>&1 || true
+
       - name: Install Android SDK packages
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-      - name: Build APK
+
+      - name: Build debug APK
         run: gradle assembleDebug
-      - name: Upload APK artifact
+
+      - name: Build signed pre-alpha release APK
+        run: gradle assembleRelease
+
+      - name: Verify APK outputs
+        run: |
+          ls -lh app/build/outputs/apk/debug/app-debug.apk
+          ls -lh app/build/outputs/apk/release/app-release.apk
+          sha256sum app/build/outputs/apk/debug/app-debug.apk
+          sha256sum app/build/outputs/apk/release/app-release.apk
+
+      - name: Prepare release package
+        run: |
+          mkdir -p dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha
+          cp app/build/outputs/apk/release/app-release.apk dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/HP3000XL-v0.1.0-pre-alpha.apk
+          cp app/build/outputs/apk/debug/app-debug.apk dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/HP3000XL-v0.1.0-pre-alpha-debug.apk
+          cp README.md dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/
+          cp docs/BUILD_METADATA.md dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/BUILD_METADATA.md
+          cp docs/RELEASE.md dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/RELEASE.md
+          sha256sum dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/*.apk > dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/SHA256SUMS.txt
+          cd dist && zip -r Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha.zip Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha
+
+      - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: hp3000xl-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: hp3000xl-v0.1.0-pre-alpha-apks
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30
+
+      - name: Upload release package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hp3000xl-v0.1.0-pre-alpha-package
+          path: dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha.zip
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Redesigned HP 3000 XL 2.0 ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/apk/debug/app-debug.apk
+            dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha.zip
+            dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/SHA256SUMS.txt
