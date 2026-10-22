@@ -1,0 +1,21 @@
+HP3000XL GUI PNG Asset Pack
+Version: 1.2.0-pre-alpha
+Source: custom generated GUI concept artwork
+
+PNG assets:
+- boot_screen.png
+- calculator.png
+- calendar.png
+- code_editor.png
+- desktop.png
+- file_explorer.png
+- spreadsheet.png
+- start_menu.png
+- system_settings.png
+- terminal.png
+- word_processor.png
+
+Asset pack SHA-256:
+21af533410859b00e4c613f52e7131f09475972b254753b1c4d22e67a8cbcd94
+
+The binary PNG pack is maintained as a generated asset artifact and is intended to be copied into the Android app's res/drawable-nodpi or equivalent asset pipeline.
