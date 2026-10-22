@@ -1,6 +1,6 @@
 # Redesigned HP 3000 XL 2.0 — Color Mobile Edition
 
-A full-color Android handheld desktop recreation inspired by the HP 300LX/Windows CE era. The application provides a Windows CE-style shell, Start menu, taskbar, desktop icons, window chrome, productivity applications, system utilities and handheld-oriented menus.
+A full-color Android handheld desktop recreation inspired by the HP 300LX/Windows CE era. The project is being expanded from a visual shell into a modular handheld application platform with persistent PIM data, an application registry and Android-backed system services.
 
 > This is an independent Android recreation. It does **not** contain Microsoft Windows CE or HP proprietary firmware, ROM images, binaries, source code, or copyrighted system assets.
 
@@ -12,6 +12,37 @@ A full-color Android handheld desktop recreation inspired by the HP 300LX/Window
 - Kotlin + Jetpack Compose
 - Phone, tablet and handheld-PC layouts
 - Physical keyboard/touch friendly controls
+
+## Platform architecture
+
+```text
+Android 10+
+    |
+    +-- HP3000XL Runtime
+          +-- CE-style Shell / Desktop
+          +-- Application Manager
+          +-- SQLite PIM / Settings Database
+          +-- System Services
+          |     +-- Power
+          |     +-- Storage
+          |     +-- Clipboard
+          |     +-- Notifications
+          |     +-- Device/System Information
+          +-- Application APIs
+                +-- File I/O
+                +-- Windows / Menus / Dialogs
+                +-- Documents
+                +-- Networking
+                +-- PIM
+                +-- Scripting (future)
+```
+
+### New platform APIs
+
+- `CeDatabase` — SQLite persistence for settings, contacts, calendar events, notes, favorites and installed applications.
+- `CeApplicationManager` — built-in application registry with IDs, versions, categories and enable/disable state.
+- `CeSystemServices` — device model, Android version, SDK, battery and storage information.
+- `CeService` — common lifecycle contract for future clipboard, notification, power, network and device services.
 
 ## Desktop and shell
 
@@ -26,19 +57,23 @@ A full-color Android handheld desktop recreation inspired by the HP 300LX/Window
 
 ## Built-in applications
 
-### Productivity
+### Productivity / PIM
 
 - Pocket Word-style document editor
 - Pocket Excel-style spreadsheet workspace
-- Inbox and Contacts
+- Pocket Outlook-style Inbox
+- Contacts
 - Calendar
+- Tasks/Notes database foundation
 - File Explorer
+- Calculator
 
 ### Internet and communications
 
-- Internet Explorer-style browser workspace
+- Internet-style browser workspace
 - Network/settings categories
 - Terminal with an allow-listed simulated command interpreter
+- Application/service APIs prepared for real Android networking
 
 ### System tools
 
@@ -46,8 +81,9 @@ A full-color Android handheld desktop recreation inspired by the HP 300LX/Window
 - Task Manager
 - Help system
 - About/System Information
-- Calculator
 - Power/display/security/network settings model
+- Battery and storage information API
+- Persistent application registry
 
 ### Games
 
@@ -61,10 +97,11 @@ START
 ├── Programs
 │   ├── Pocket Word
 │   ├── Pocket Excel
-│   ├── Inbox / Contacts
+│   ├── Pocket Outlook
+│   ├── Contacts
 │   ├── Calendar
 │   ├── Calculator
-│   ├── Internet Explorer
+│   ├── Internet
 │   ├── Terminal
 │   ├── File Explorer
 │   ├── Solitaire
@@ -72,24 +109,26 @@ START
 ├── Settings
 │   ├── Control Panel
 │   ├── Task Manager
-│   └── About
+│   ├── Display
+│   ├── Power
+│   ├── Memory / Storage
+│   ├── Network
+│   ├── Regional Settings
+│   ├── Owner Information
+│   ├── Security
+│   ├── Stylus / Input
+│   └── Sound
 ├── Documents
 │   ├── File Explorer
 │   ├── Pocket Word
 │   └── Pocket Excel
 ├── Favorites
-│   ├── Internet Explorer
+│   ├── Internet
 │   ├── Calendar
 │   └── File Explorer
 ├── Help
 └── Suspend / Power
 ```
-
-## Architecture
-
-The app is intentionally an Android-hosted compatibility shell rather than a replacement Android kernel. Android provides lifecycle, graphics, input, storage and device services while the application supplies the handheld desktop experience.
-
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Build
 
@@ -103,20 +142,20 @@ APK output:
 app/build/outputs/apk/debug/app-debug.apk
 ```
 
-GitHub Actions also builds a debug APK artifact on pushes and pull requests.
+GitHub Actions builds a debug APK artifact on pushes and pull requests.
 
-## Roadmap toward a deeper handheld OS recreation
+## Roadmap
 
-1. Persistent SQLite/Room PIM database.
-2. Real Android Storage Access Framework file browser.
-3. Hardware keyboard and stylus shortcut mapping.
-4. Bluetooth, USB and Wi-Fi device-management UI.
-5. Notification center and background-task manager.
-6. CAB-like application package format for this recreation.
-7. Sandboxed Lua/BASIC scripting runtime.
-8. Pocket Office document formats and import/export.
-9. Optional virtual machine layer for legally obtained legacy software.
-10. Signed release APK/AAB and release update channel.
+1. Connect the visible PIM applications to `CeDatabase`.
+2. Replace the simulated File Explorer with Android Storage Access Framework.
+3. Add hardware keyboard, stylus and handheld shortcut mapping.
+4. Add Bluetooth, USB and Wi-Fi device-management screens.
+5. Add Android notification integration and a real process/task model.
+6. Add a documented `.hpapp` package format for this recreation.
+7. Add a sandboxed Lua/BASIC scripting runtime.
+8. Add Pocket Office import/export formats.
+9. Add optional VM support only for software the user is legally entitled to run.
+10. Produce signed release APK/AAB builds and an update channel.
 
 ## License
 
