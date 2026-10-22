@@ -54,19 +54,20 @@ jobs:
 
       - name: Prepare release package
         run: |
-          mkdir -p dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha
-          cp app/build/outputs/apk/release/app-release.apk dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/HP3000XL-v0.1.0-pre-alpha.apk
-          cp app/build/outputs/apk/debug/app-debug.apk dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/HP3000XL-v0.1.0-pre-alpha-debug.apk
-          cp README.md dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/
-          cp docs/BUILD_METADATA.md dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/BUILD_METADATA.md
-          cp docs/RELEASE.md dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/RELEASE.md
-          sha256sum dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/*.apk > dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/SHA256SUMS.txt
-          cd dist && zip -r Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha.zip Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha
+          mkdir -p dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha
+          cp app/build/outputs/apk/release/app-release.apk dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/HP3000XL-v1.2.0-pre-alpha.apk
+          cp app/build/outputs/apk/debug/app-debug.apk dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/HP3000XL-v1.2.0-pre-alpha-debug.apk
+          cp README.md dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/
+          cp docs/BUILD_METADATA.md dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/BUILD_METADATA.md
+          cp docs/BUILD_1.2.0.md dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/BUILD_1.2.0.md
+          cp docs/RELEASE.md dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/RELEASE.md
+          sha256sum dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/*.apk > dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/SHA256SUMS.txt
+          cd dist && zip -r Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha.zip Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: hp3000xl-v0.1.0-pre-alpha-apks
+          name: hp3000xl-v1.2.0-pre-alpha-apks
           path: |
             app/build/outputs/apk/debug/app-debug.apk
             app/build/outputs/apk/release/app-release.apk
@@ -76,8 +77,8 @@ jobs:
       - name: Upload release package artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hp3000xl-v0.1.0-pre-alpha-package
-          path: dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha.zip
+          name: hp3000xl-v1.2.0-pre-alpha-package
+          path: dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha.zip
           if-no-files-found: error
           retention-days: 30
 
@@ -90,5 +91,5 @@ jobs:
           files: |
             app/build/outputs/apk/release/app-release.apk
             app/build/outputs/apk/debug/app-debug.apk
-            dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha.zip
-            dist/Redesigned-HP-3000-XL-2.0-v0.1.0-pre-alpha/SHA256SUMS.txt
+            dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha.zip
+            dist/Redesigned-HP-3000-XL-2.0-v1.2.0-pre-alpha/SHA256SUMS.txt
