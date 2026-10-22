@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId = "io.arkansasio.hp3000xl"
-        minSdk = 26
+        minSdk = 29
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0-pre-alpha"
+        versionCode = 1200
+        versionName = "1.2.0-pre-alpha"
     }
 
     buildFeatures { compose = true }
@@ -24,9 +24,6 @@ android {
             versionNameSuffix = "-debug"
         }
         getByName("release") {
-            // Pre-alpha release builds use the Android debug signing key so the
-            // APK is installable from CI without requiring a private signing secret.
-            // Production releases must replace this with a protected release key.
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
             isShrinkResources = false
