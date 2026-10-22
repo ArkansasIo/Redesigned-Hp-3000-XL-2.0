@@ -33,7 +33,10 @@ private val Border = Color(0xFF6E7785)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { Hp3000Shell() }
+        setContent {
+            var booted by remember { mutableStateOf(false) }
+            if (booted) Hp3000Shell() else BootScreen(onBootComplete = { booted = true })
+        }
     }
 }
 

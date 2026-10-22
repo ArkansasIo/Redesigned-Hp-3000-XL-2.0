@@ -1,0 +1,7 @@
+.gradle/
+build/
+app/build/
+.vscode/
+sdkinstall.log
+local.properties
+*.log
