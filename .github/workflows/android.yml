@@ -22,12 +22,14 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Use preinstalled Android SDK
+        run: |
+          echo "ANDROID_HOME=${ANDROID_HOME:-/usr/local/lib/android/sdk}" >> "$GITHUB_ENV"
+          echo "PATH=${ANDROID_HOME:-/usr/local/lib/android/sdk}/platform-tools:${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin:$PATH" >> "$GITHUB_ENV"
       - name: Accept Android SDK licenses
-        run: yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null 2>&1 || true
+        run: yes | sdkmanager --licenses >/dev/null 2>&1 || true
       - name: Install Android SDK packages
-        run: "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Build APK
