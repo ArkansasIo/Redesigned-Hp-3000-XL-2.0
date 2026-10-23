@@ -2,11 +2,11 @@ package io.arkansasio.hp3000xl.services
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
-import android.os.PowerManager
 import java.io.File
 
 /**
@@ -53,7 +53,7 @@ class AndroidFileSystemService(private val context: Context) : FileSystemService
 
 class AndroidPowerService(private val context: Context) : PowerService {
     override fun state(): PowerState {
-        val intent = context.registerReceiver(null, Intent(Intent.ACTION_BATTERY_CHANGED))
+        val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         val level = intent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
         val scale = intent?.getIntExtra(BatteryManager.EXTRA_SCALE, 100) ?: 100
         val status = intent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
@@ -66,12 +66,10 @@ class AndroidPowerService(private val context: Context) : PowerService {
     }
 
     override fun requestSleep() {
-        val pm = context.getSystemService(Context.POWER_SERVICE) as? PowerManager ?: return
-        // Does not force sleep; only hints the system that the user is inactive.
-        pm.userActivity(SystemClock_Uptime(), false)
+        // Pre-alpha: sleep is simulated — the shell records the event and the
+        // display timeout is left to the host Android system.
+        io.arkansasio.hp3000xl.core.CeOs.log("power", "sleep requested (simulated)")
     }
-
-    private fun SystemClock_Uptime(): Long = android.os.SystemClock.uptimeMillis()
 }
 
 class AndroidNotificationService(private val context: Context) : NotificationService {

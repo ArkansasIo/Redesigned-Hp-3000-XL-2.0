@@ -28,6 +28,8 @@ import io.arkansasio.hp3000xl.ui.HpChrome
 import io.arkansasio.hp3000xl.ui.HpDarkChrome
 import io.arkansasio.hp3000xl.ui.HpDesktopBlue
 import io.arkansasio.hp3000xl.ui.HpNavy
+import io.arkansasio.hp3000xl.terminal.SystemTerminalSession
+import io.arkansasio.hp3000xl.core.CeOs
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -39,6 +41,8 @@ private val Border = Color(0xFF6E7785)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Boot the OS core before the shell comes up.
+        CeOs.boot(listOf("power", "storage", "clipboard", "notifications", "device", "network"))
         setContent {
             Hp3000Theme {
                 var booted by remember { mutableStateOf(false) }
@@ -152,8 +156,8 @@ private fun AppWindow(app: CeApp, dark: Boolean, volume: Boolean, onDark: () -> 
                 CeApp.Calendar -> SimpleList("October 2026", listOf("09:00 Morning briefing", "13:00 Lunch", "17:00 Daily shutdown"))
                 CeApp.Calculator -> CalculatorView()
                 CeApp.Internet -> SimpleList("Internet Explorer", listOf("Home", "Favorites", "History", "Network status: available"))
+                CeApp.TaskManager -> TaskListView()
                 CeApp.Terminal -> TerminalView()
-                CeApp.TaskManager -> SimpleList("Task Manager", listOf("HP 3000 XL Shell — Running", "System Services — Running", "SQLite Database — Ready"))
                 CeApp.Help -> SimpleList("Help", listOf("Desktop", "Start Menu", "File Explorer", "System Settings", "System Updates", "Application Packages"))
                 CeApp.Solitaire -> SimpleList("Solitaire", listOf("♠  ♥  ♣  ♦", "New Game", "Save Game"))
                 CeApp.Minesweeper -> SimpleList("Minesweeper", listOf("▦  ▦  ▦", "▦  1  2", "▦  2  💣"))
@@ -199,7 +203,48 @@ private fun AboutView() {
 
 @Composable private fun CalculatorView() { var value by remember { mutableStateOf("") }; Column { Text(value.ifEmpty { "0" }, Modifier.fillMaxWidth().background(Color.White).border(1.dp, Border).padding(12.dp), textAlign = TextAlign.End, fontSize = 22.sp); Spacer(Modifier.height(8.dp)); listOf("7 8 9 /", "4 5 6 *", "1 2 3 -", "0 . = +").forEach { row -> Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) { row.split(" ").forEach { key -> Button(onClick = { value = if (key == "=") value else value + key }, modifier = Modifier.weight(1f)) { Text(key) } } } } } }
 
-@Composable private fun TerminalView() { var input by remember { mutableStateOf("") }; Column { Text("HP3000XL Terminal", fontWeight = FontWeight.Bold); Text("Restricted command shell. No arbitrary code execution.", fontSize = 11.sp); Spacer(Modifier.height(8.dp)); BasicTextField(input, { input = it }, Modifier.fillMaxWidth().background(Color.Black).padding(10.dp), textStyle = LocalTextStyle.current.copy(color = Color.White, fontFamily = FontFamily.Monospace)); Text("\n> $input", fontFamily = FontFamily.Monospace) } }
+@Composable private fun TerminalView() {
+    val session = remember { SystemTerminalSession() }
+    var input by remember { mutableStateOf("") }
+    var output by remember { mutableStateOf(session.prompt()) }
+    Column {
+        Text("HP3000XL Terminal", fontWeight = FontWeight.Bold)
+        Text("Restricted command shell. No arbitrary code execution.", fontSize = 11.sp)
+        Spacer(Modifier.height(8.dp))
+        Text(output, Modifier.fillMaxSize().weight(1f).background(Color.Black).padding(10.dp).verticalScroll(rememberScrollState()), color = Color(0xFF9FEF9F), fontFamily = FontFamily.Monospace, fontSize = 12.sp)
+        Spacer(Modifier.height(6.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(">", fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.width(6.dp))
+            BasicTextField(input, { input = it }, Modifier.weight(1f).background(Color.White).border(1.dp, Border).padding(8.dp), textStyle = LocalTextStyle.current.copy(fontFamily = FontFamily.Monospace), singleLine = true)
+            Spacer(Modifier.width(6.dp))
+            Button(onClick = {
+                val result = session.execute(input)
+                output = if (result == "\u000C") session.prompt() else output + "\n> " + input + "\n" + result + "\n" + session.prompt()
+                input = ""
+            }) { Text("Run") }
+        }
+    }
+}
+
+@Composable private fun TaskListView() {
+    Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text("Task Manager", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Navy)
+        Spacer(Modifier.height(4.dp))
+        Text("OS: ${CeOs.name} ${CeOs.version} (${CeOs.buildId})", fontWeight = FontWeight.Bold)
+        Text("Uptime: ${CeOs.uptimeMs() / 1000}s")
+        Spacer(Modifier.height(6.dp))
+        Text("Services", fontWeight = FontWeight.Bold)
+        CeOs.runningServices().forEach { MenuItem("● $it — running") {} }
+        Spacer(Modifier.height(6.dp))
+        Text("Tasks", fontWeight = FontWeight.Bold)
+        val tasks = CeOs.runningTasks()
+        if (tasks.isEmpty()) Text("(no user tasks)") else tasks.forEach { MenuItem("pid=${it.pid}  ${it.title}  [${it.state}]") {} }
+        Spacer(Modifier.height(6.dp))
+        Text("Recent events", fontWeight = FontWeight.Bold)
+        CeOs.recentEvents(12).forEach { Text("[${it.source}] ${it.message}", fontSize = 11.sp, fontFamily = FontFamily.Monospace) }
+    }
+}
 
 @Composable private fun MenuItem(label: String, onClick: () -> Unit) { Row(Modifier.fillMaxWidth().clickable { onClick() }.padding(9.dp), verticalAlignment = Alignment.CenterVertically) { Text(label, fontSize = 13.sp) }
 }
