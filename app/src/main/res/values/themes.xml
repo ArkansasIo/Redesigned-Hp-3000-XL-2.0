@@ -3,6 +3,9 @@
     <style name="Theme.HP3000XL" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:colorAccent">@color/ce_blue</item>
+        <item name="android:colorPrimary">@color/ce_blue</item>
+        <item name="android:colorPrimaryDark">@color/ce_blue_dark</item>
+        <item name="android:windowBackground">@color/ce_silver</item>
         <item name="android:navigationBarColor">@color/ce_blue_dark</item>
         <item name="android:statusBarColor">@color/ce_blue_dark</item>
     </style>
