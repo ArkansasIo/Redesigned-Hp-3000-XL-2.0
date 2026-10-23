@@ -5,3 +5,8 @@ app/build/
 sdkinstall.log
 local.properties
 *.log
+
+# keep the output/ folder in git: README + release artifacts, but nothing else
+output/*
+!output/README.md
+!output/*.apk
