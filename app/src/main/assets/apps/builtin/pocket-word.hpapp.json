@@ -1,0 +1,9 @@
+{
+  "id": "pocket-word",
+  "name": "Pocket Word",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "category": "Office",
+  "entryPoint": "io.arkansasio.hp3000xl.apps.PocketWordApp",
+  "permissions": ["storage", "clipboard"]
+}
