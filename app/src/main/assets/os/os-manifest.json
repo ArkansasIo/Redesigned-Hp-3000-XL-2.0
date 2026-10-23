@@ -1,0 +1,15 @@
+{
+  "product": "Redesigned HP 3000 XL 2.0",
+  "edition": "Color Mobile Edition",
+  "version": "1.2.0-pre-alpha",
+  "buildId": "HP3000XL-PA-1200",
+  "apiVersion": 1,
+  "minimumAndroidApi": 29,
+  "targetAndroidApi": 35,
+  "shell": "ce-style",
+  "packageFormat": ".hpapp.json",
+  "kernel": "android-linux-hosted-facade",
+  "firmware": "software-model",
+  "proprietaryFirmwareIncluded": false,
+  "windowsCeBinariesIncluded": false
+}
