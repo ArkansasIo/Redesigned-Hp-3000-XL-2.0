@@ -156,25 +156,51 @@ namespace HP3000XL
                     return;
                 }
                 Say("Booting emulator: " + avd);
-                Process.Start(new ProcessStartInfo
+                var emuProc = Process.Start(new ProcessStartInfo
                 {
                     FileName = emulator,
-                    Arguments = "-avd " + avd,
+                    Arguments = "-avd " + avd + " -no-snapshot-load",
                     UseShellExecute = false,
                     CreateNoWindow = true,
                 });
-                // wait for boot
+                bool booted = false;
                 for (int i = 0; i < 120; i++)
                 {
+                    // Fail fast if the emulator process died (e.g. no hardware
+                    // acceleration / nested virtualization) instead of hanging.
+                    if (emuProc.HasExited)
+                    {
+                        Say("ERROR: emulator exited immediately (code " + emuProc.ExitCode + ").");
+                        Say("This usually means hardware acceleration is unavailable —");
+                        Say("on a cloud VM, enable nested virtualization on the host, or");
+                        Say("plug in a physical Android device with USB debugging.");
+                        return;
+                    }
                     Thread.Sleep(2000);
                     var boot = Run2(adb, "shell getprop sys.boot_completed").Trim();
-                    if (boot == "1") { Say("Emulator booted."); break; }
+                    if (boot == "1") { Say("Emulator booted."); booted = true; break; }
                     if (i % 5 == 0) Say("Waiting for emulator boot... (" + (i * 2) + "s)");
+                }
+                if (!booted)
+                {
+                    Say("Emulator did not finish booting within 240s — aborting.");
+                    return;
                 }
             }
             else
             {
                 Say("Device found.");
+            }
+
+            // Re-check: after the boot wait, is a device actually online?
+            var after = Run2(adb, "devices");
+            if (!after.Contains("\tdevice"))
+            {
+                Say("No device online after boot wait — skipping install.");
+                Say("The emulator cannot run on this machine (no nested virtualization).");
+                Say("Plug in a physical Android device with USB debugging, or enable");
+                Say("nested virtualization on the host VM.");
+                return;
             }
 
             // 2. build if the APK is missing
