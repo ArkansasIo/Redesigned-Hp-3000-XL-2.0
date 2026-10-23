@@ -1,0 +1,9 @@
+{
+  "id": "file-explorer",
+  "name": "File Explorer",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "category": "System",
+  "entryPoint": "io.arkansasio.hp3000xl.apps.FileExplorerApp",
+  "permissions": ["storage"]
+}
