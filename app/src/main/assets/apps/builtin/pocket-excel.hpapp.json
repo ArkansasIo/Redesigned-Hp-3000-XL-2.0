@@ -1,0 +1,9 @@
+{
+  "id": "pocket-excel",
+  "name": "Pocket Excel",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "category": "Office",
+  "entryPoint": "io.arkansasio.hp3000xl.apps.PocketExcelApp",
+  "permissions": ["storage", "clipboard"]
+}
