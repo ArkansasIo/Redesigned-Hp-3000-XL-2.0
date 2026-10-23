@@ -22,11 +22,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.arkansasio.hp3000xl.ui.Hp3000Theme
+import io.arkansasio.hp3000xl.ui.HpBorder
+import io.arkansasio.hp3000xl.ui.HpChrome
+import io.arkansasio.hp3000xl.ui.HpDarkChrome
+import io.arkansasio.hp3000xl.ui.HpDesktopBlue
+import io.arkansasio.hp3000xl.ui.HpNavy
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-private val Navy = Color(0xFF003399)
+private val Navy = HpNavy
 private val Window = Color(0xFFF4F6FA)
 private val Border = Color(0xFF6E7785)
 
@@ -34,8 +40,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var booted by remember { mutableStateOf(false) }
-            if (booted) Hp3000Shell() else BootScreen(onBootComplete = { booted = true })
+            Hp3000Theme {
+                var booted by remember { mutableStateOf(false) }
+                if (booted) Hp3000Shell() else BootScreen(onBootComplete = { booted = true })
+            }
         }
     }
 }
@@ -54,7 +62,7 @@ private fun Hp3000Shell() {
     var start by remember { mutableStateOf(false) }
     var dark by remember { mutableStateOf(false) }
     var volume by remember { mutableStateOf(true) }
-    val background = if (dark) Color(0xFF1D2633) else Color(0xFF5B8FD9)
+    val background = if (dark) HpDarkChrome else HpDesktopBlue
 
     BackHandler(enabled = app != null || start) {
         if (start) start = false else app = null
