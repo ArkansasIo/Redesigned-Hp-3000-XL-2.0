@@ -1,7 +1,6 @@
 package io.arkansasio.hp3000xl.apps.pim
 
-data class MailMessage(val id: Long, val sender: String, val subject: String, val body: String, val read: Boolean = false)
-
+/** Canonical MailMessage model lives in PimModels.kt. */
 class InboxModel {
     private val messages = mutableListOf<MailMessage>()
     fun add(message: MailMessage) { messages.removeAll { it.id == message.id }; messages += message }
