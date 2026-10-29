@@ -29,6 +29,9 @@ import io.arkansasio.hp3000xl.ui.HpDarkChrome
 import io.arkansasio.hp3000xl.ui.HpDesktopBlue
 import io.arkansasio.hp3000xl.ui.HpNavy
 import io.arkansasio.hp3000xl.terminal.SystemTerminalSession
+import io.arkansasio.hp3000xl.apps.SimhEmulatorApp
+import io.arkansasio.hp3000xl.apps.SimhEmulatorScreen
+import androidx.compose.ui.platform.LocalContext
 import io.arkansasio.hp3000xl.core.CeOs
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -57,7 +60,7 @@ private enum class CeApp(val title: String, val icon: String) {
     Inbox("Inbox / Contacts", "✉️"), Calendar("Calendar", "📅"), Calculator("Calculator", "🧮"),
     Internet("Internet Explorer", "🌐"), Terminal("Terminal", "⌨️"), ControlPanel("Control Panel", "⚙️"),
     TaskManager("Task Manager", "📈"), Help("Help", "❔"), Solitaire("Solitaire", "🃏"),
-    Minesweeper("Minesweeper", "💣"), About("System Information", "ℹ️")
+    Minesweeper("Minesweeper", "💣"), SimhEmulator("SIMH Emulator", "🖥️"), About("System Information", "ℹ️")
 }
 
 @Composable
@@ -129,7 +132,7 @@ private fun BoxScope.Taskbar(startOpen: Boolean, volume: Boolean, onStart: () ->
 private fun BoxScope.StartMenu(onOpen: (CeApp) -> Unit, onClose: () -> Unit) {
     Column(Modifier.width(310.dp).align(Alignment.BottomStart).padding(start = 4.dp, bottom = 46.dp).background(Color.White).border(1.dp, Navy).padding(5.dp)) {
         Text("HP 3000 XL  •  PRE-ALPHA", Modifier.fillMaxWidth().background(Navy).padding(9.dp), color = Color.White, fontWeight = FontWeight.Bold)
-        listOf(CeApp.FileExplorer, CeApp.PocketWord, CeApp.PocketExcel, CeApp.Inbox, CeApp.Calendar, CeApp.Calculator, CeApp.Internet, CeApp.ControlPanel, CeApp.About).forEach { MenuItem("${it.icon}  ${it.title}") { onOpen(it) } }
+        listOf(CeApp.FileExplorer, CeApp.PocketWord, CeApp.PocketExcel, CeApp.Inbox, CeApp.Calendar, CeApp.Calculator, CeApp.Internet, CeApp.SimhEmulator, CeApp.ControlPanel, CeApp.About).forEach { MenuItem("${it.icon}  ${it.title}") { onOpen(it) } }
         HorizontalDivider()
         MenuItem("⏻  Close Menu") { onClose() }
     }
@@ -158,6 +161,10 @@ private fun AppWindow(app: CeApp, dark: Boolean, volume: Boolean, onDark: () -> 
                 CeApp.Internet -> SimpleList("Internet Explorer", listOf("Home", "Favorites", "History", "Network status: available"))
                 CeApp.TaskManager -> TaskListView()
                 CeApp.Terminal -> TerminalView()
+                CeApp.SimhEmulator -> {
+                    val context = LocalContext.current
+                    SimhEmulatorScreen(controller = remember(context) { SimhEmulatorApp(context) })
+                }
                 CeApp.Help -> SimpleList("Help", listOf("Desktop", "Start Menu", "File Explorer", "System Settings", "System Updates", "Application Packages"))
                 CeApp.Solitaire -> SimpleList("Solitaire", listOf("♠  ♥  ♣  ♦", "New Game", "Save Game"))
                 CeApp.Minesweeper -> SimpleList("Minesweeper", listOf("▦  ▦  ▦", "▦  1  2", "▦  2  💣"))
