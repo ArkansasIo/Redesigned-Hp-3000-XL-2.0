@@ -7,6 +7,7 @@ plugins {
 android {
     namespace = "io.arkansasio.hp3000xl"
     compileSdk = 35
+    ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "io.arkansasio.hp3000xl"
@@ -14,9 +15,17 @@ android {
         targetSdk = 35
         versionCode = 1200
         versionName = "1.2.0-pre-alpha"
+        ndk { abiFilters += listOf("arm64-v8a", "x86_64") }
     }
 
     buildFeatures { compose = true }
+
+    externalNativeBuild {
+        cmake {
+            path = file("../native/simh-android/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
 
     buildTypes {
         getByName("debug") {
