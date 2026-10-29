@@ -1,0 +1,12 @@
+{
+  "id": "simh-emulator",
+  "name": "SIMH Machine Emulator",
+  "version": "0.1.0",
+  "publisher": "ArkansasIo",
+  "entrypoint": "io.arkansasio.hp3000xl.apps.SimhEmulatorScreen",
+  "category": "System Tools",
+  "description": "Runtime status and control panel for SIMH machine emulation, including HP 3000.",
+  "permissions": ["storage.user-selected"],
+  "runtime": "android-native-bridge",
+  "availability": "runtime-dependent"
+}
