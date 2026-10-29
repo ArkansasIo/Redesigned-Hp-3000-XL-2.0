@@ -1,5 +1,7 @@
 package io.arkansasio.hp3000xl.apps
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,13 +30,31 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.arkansasio.hp3000xl.emulator.SimhMachine
+import java.util.Locale
 
-/** SIMH front-end panel; launch remains disabled until the native port is shipped. */
+/** SIMH front-end panel; launch stays disabled until a real machine engine is linked. */
 @Composable
 fun SimhEmulatorScreen(controller: SimhEmulatorApp, modifier: Modifier = Modifier) {
     var machine by remember { mutableStateOf(SimhMachine.HP3000) }
     var refresh by remember { mutableStateOf(0) }
+    var mediaMessage by remember { mutableStateOf("No media imported yet.") }
     val prerequisites = remember(machine, refresh) { controller.launchPrerequisites(machine) }
+    val nativeCapability = remember(refresh) { controller.nativeCapability() }
+    val mediaPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri == null) {
+            mediaMessage = "Media selection cancelled."
+        } else {
+            mediaMessage = try {
+                val imported = controller.importMedia(uri, machine)
+                refresh++
+                "Imported ${imported.file.name} • ${String.format(Locale.US, "%,d", imported.bytesCopied)} bytes"
+            } catch (error: Exception) {
+                "Import failed: ${error.message ?: error.javaClass.simpleName}"
+            }
+        }
+    }
 
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp),
@@ -58,6 +78,7 @@ fun SimhEmulatorScreen(controller: SimhEmulatorApp, modifier: Modifier = Modifie
             Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text("Runtime status", fontWeight = FontWeight.Bold)
                 Text(prerequisites.status)
+                Text("Native bridge: ${nativeCapability.status} — ${nativeCapability.message}")
                 Text("Target ABI: ${prerequisites.abi}")
                 Text("Machine data directory", fontWeight = FontWeight.Bold)
                 Text(prerequisites.dataDirectory, fontFamily = FontFamily.Monospace, style = MaterialTheme.typography.bodySmall)
@@ -65,13 +86,22 @@ fun SimhEmulatorScreen(controller: SimhEmulatorApp, modifier: Modifier = Modifie
             }
         }
         Text("System media", fontWeight = FontWeight.Bold)
-        Text("Import your own legally obtained operating-system tapes, disk images and configuration files after the native runtime is available. Proprietary HP firmware, ROM images and operating-system media are not bundled.")
+        Text("Choose legally obtained tape, disk, or configuration media. The app copies the selected file into its private workspace; it does not bundle proprietary HP operating-system images.")
+        Button(
+            onClick = { mediaPicker.launch(arrayOf("*/*")) },
+            modifier = Modifier.fillMaxWidth()
+        ) { Text("Import media file") }
+        Text(mediaMessage, style = MaterialTheme.typography.bodySmall)
         Spacer(Modifier.height(4.dp))
-        Button(onClick = { refresh++ }, enabled = prerequisites.ready, modifier = Modifier.fillMaxWidth()) {
-            Text(if (prerequisites.ready) "Native runtime detected — launch bridge required" else "Emulator not installed")
+        Button(
+            onClick = { refresh++ },
+            enabled = prerequisites.ready,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(if (prerequisites.ready) "Launch emulator" else "Emulator engine not available")
         }
         Text(
-            "The SIMH repository contains HP 3000 C sources; this UI does not compile them. An Android NDK/CMake/JNI port and device-ABI tests are required before emulation can run.",
+            "The current native library is only an integration scaffold. HP 3000 SIMH machine sources still need to be ported, linked, and tested with a valid guest image before the emulator can launch.",
             style = MaterialTheme.typography.bodySmall
         )
     }
