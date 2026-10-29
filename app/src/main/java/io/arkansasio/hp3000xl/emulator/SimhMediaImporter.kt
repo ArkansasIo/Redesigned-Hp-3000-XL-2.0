@@ -4,6 +4,8 @@ import android.content.ContentResolver
 import android.net.Uri
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.util.UUID
 
 /**
@@ -30,21 +32,11 @@ class SimhMediaImporter(
         val input = contentResolver.openInputStream(source)
             ?: throw IOException("Android could not open the selected media file.")
 
-        var copied = 0L
+        val copied: Long
         try {
             input.use { stream ->
                 target.outputStream().buffered().use { output ->
-                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-                    while (true) {
-                        val count = stream.read(buffer)
-                        if (count < 0) break
-                        copied += count
-                        if (copied > maxBytes) {
-                            throw IOException("Selected media exceeds the configured import limit.")
-                        }
-                        output.write(buffer, 0, count)
-                    }
-                    output.flush()
+                    copied = SimhMediaCopy.copy(stream, output, maxBytes)
                 }
             }
         } catch (error: Exception) {
@@ -52,16 +44,36 @@ class SimhMediaImporter(
             throw error
         }
 
-        if (copied == 0L) {
-            target.delete()
-            throw IOException("The selected media file is empty.")
-        }
-
         return ImportedSimhMedia(machine = machine, file = target, bytesCopied = copied)
     }
 
     companion object {
         const val DEFAULT_MAX_BYTES: Long = 8L * 1024L * 1024L * 1024L
+    }
+}
+
+/** Bounded stream copy kept Android-independent so its edge cases can be unit tested. */
+internal object SimhMediaCopy {
+    @Throws(IOException::class)
+    fun copy(input: InputStream, output: OutputStream, maxBytes: Long): Long {
+        require(maxBytes > 0) { "Maximum media size must be positive." }
+        var copied = 0L
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        while (true) {
+            val count = input.read(buffer)
+            if (count < 0) break
+            if (count == 0) continue
+            if (copied > maxBytes - count) {
+                throw IOException("Selected media exceeds the configured import limit.")
+            }
+            output.write(buffer, 0, count)
+            copied += count
+        }
+        if (copied == 0L) {
+            throw IOException("The selected media file is empty.")
+        }
+        output.flush()
+        return copied
     }
 }
 
