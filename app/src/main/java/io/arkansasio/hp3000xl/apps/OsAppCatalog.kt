@@ -11,6 +11,7 @@ object OsAppCatalog {
         OsApp("calculator", "Calculator", "Utilities"),
         OsApp("internet", "Internet", "Network"),
         OsApp("terminal", "Terminal", "Development"),
+        OsApp("simh-emulator", "SIMH Machine Emulator", "System Tools", system = true),
         OsApp("code-editor", "Code Editor", "Development"),
         OsApp("basic-2026", "BASIC 2026", "Development"),
         OsApp("python", "Python", "Development"),
