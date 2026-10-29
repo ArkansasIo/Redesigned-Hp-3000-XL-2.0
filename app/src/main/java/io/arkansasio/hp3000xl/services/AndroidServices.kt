@@ -9,3 +9,8 @@ class AndroidNotificationService(private val context: Context) : NotificationSer
         Toast.makeText(context, "$title — $message", Toast.LENGTH_SHORT).show()
     }
 }
+
+/** Backward-compatible concrete adapter names used by CeRuntimeApi. */
+class AndroidDeviceService(context: Context) : DeviceService by io.arkansasio.hp3000xl.services.AndroidDeviceService()
+class AndroidPowerService(context: Context) : PowerService by io.arkansasio.hp3000xl.services.AndroidPowerService(context)
+class AndroidNetworkService(context: Context) : NetworkService by io.arkansasio.hp3000xl.services.AndroidNetworkService(context)
