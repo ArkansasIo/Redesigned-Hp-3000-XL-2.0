@@ -2,35 +2,46 @@
 
 ## Build validation
 
-Every change should pass:
+Run the same checks used by Android CI:
 
 ```bash
+./gradlew testDebugUnitTest
 ./gradlew assembleDebug
+./gradlew assembleRelease
 ```
 
-## Unit testing targets
+The CI workflow runs unit tests before packaging APK artifacts. A successful source commit is not proof that a build passed; use the linked Actions run to confirm its conclusion and artifact uploads.
 
-- Application registry
-- Version comparison
-- Manifest parsing
-- SHA-256 verification
-- Patch base-version validation
-- Database migrations
-- Calculator operations
-- Menu navigation
-- Settings persistence
+## Current unit test coverage
+
+- Calculator expression parsing: precedence, parentheses, unary signs, decimals, malformed expressions, division by zero and expression length limits.
+- SIMH bridge capability: unavailable library and unlinked engine must not be considered launchable.
+- SIMH configuration: default machine, invalid console port and workspace path validation.
+- SIMH media copy: successful copy, exact size limit, oversize rejection, empty input and invalid limits.
+- Core runtime and OS runtime smoke tests.
+- SIMH emulator catalog registration.
+
+## Recommended additional unit testing
+
+- Application registry and lifecycle.
+- Version comparison and manifest parsing.
+- SHA-256 verification and update base-version validation.
+- Database persistence and migrations.
+- Menu navigation and settings persistence.
+- Media importer failure cleanup and SAF integration using Android instrumentation tests.
 
 ## UI testing targets
 
-- Desktop loads
-- Start menu opens/closes
-- Programs submenu works
-- Settings submenu works
-- Window close/back navigation works
-- Keyboard navigation works where supported
-- Portrait layout
-- Landscape layout
-- Tablet layout
+- Desktop loads.
+- Start menu opens/closes.
+- Programs submenu works.
+- Settings submenu works.
+- Window close/back navigation works.
+- Keyboard navigation works where supported.
+- Portrait, landscape and tablet layouts.
+- SIMH machine selection and capability status.
+- Media picker cancellation and import failure messaging.
+- Emulator launch remains disabled while the native engine reports `ENGINE_NOT_LINKED`.
 
 ## Update testing
 
@@ -50,16 +61,15 @@ Use test releases to validate:
 
 ## Android versions
 
-The stated compatibility target is Android 10/API 29 and newer. The Gradle minimum SDK remains 26 for build compatibility, so runtime checks should enforce features that require newer APIs.
+The current Gradle minimum SDK is API 29 (Android 10). This is the configured build minimum; actual device compatibility still requires physical-device or emulator testing.
 
 ## Physical-device testing
 
-Test on at least one Android 10-era device and one current Android device. Verify touch, keyboard, display scaling, storage permissions, notification behavior, battery behavior and APK installation.
+Test on at least one Android 10-era device and one current Android device. Verify touch, keyboard, display scaling, storage permissions, notification behavior, battery behavior and APK installation. Validate both `arm64-v8a` and `x86_64` build outputs where supported.
 
 ## Release gate
 
-A release should not be published until the debug/release build succeeds, critical UI flows work, update verification tests pass, and the artifact checksum has been recorded.
-
+A release should not be described as verified until the debug and release builds succeed, critical UI flows work, update verification tests pass, and artifact checksums have been recorded. Native HP 3000 emulation has a separate gate: the real SIMH engine must be linked, its lifecycle and console bridge tested, and a guest boot smoke test completed with authorized media.
 
 ## GitHub Pages preview smoke test
 
