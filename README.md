@@ -160,3 +160,19 @@ GitHub Actions builds a debug APK artifact on pushes and pull requests.
 ## License
 
 MIT for the original project code. See `LICENSE`.
+
+
+## Live browser preview
+
+The interactive GitHub Pages preview is available at:
+
+**https://arkansasio.github.io/Redesigned-Hp-3000-XL-2.0/**
+
+It includes a responsive handheld desktop shell, Start menu, app windows, notes, an editable spreadsheet with CSV export, calculator, local calendar reminders, local contacts, display settings and a simulated terminal. Browser data stays in the current browser profile; this is not a backend sync service or Android emulator.
+
+- [Browser preview documentation](docs/WEB_PREVIEW.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Testing guide](docs/TESTING.md)
+- [Security notes](docs/SECURITY.md)
+- [GitHub Pages deployment workflow](.github/workflows/pages.yml)
