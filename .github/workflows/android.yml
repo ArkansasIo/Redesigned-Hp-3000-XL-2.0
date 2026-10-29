@@ -11,6 +11,11 @@ on:
 permissions:
   contents: write
 
+# Keep only the newest branch build active while commits are arriving.
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build Android APKs
