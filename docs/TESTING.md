@@ -59,3 +59,16 @@ Test on at least one Android 10-era device and one current Android device. Verif
 ## Release gate
 
 A release should not be published until the debug/release build succeeds, critical UI flows work, update verification tests pass, and the artifact checksum has been recorded.
+
+
+## GitHub Pages preview smoke test
+
+- [ ] Open the published page on desktop and a narrow mobile viewport.
+- [ ] Launch each app from Start and desktop icons; close and reopen via taskbar.
+- [ ] Save a note, refresh, and verify the note remains in the same browser profile.
+- [ ] Edit spreadsheet cells and export CSV.
+- [ ] Add/remove calendar reminders and contacts; refresh to verify persistence.
+- [ ] Try terminal commands `help`, `ver`, `dir`, and an unknown command; confirm they are simulation-only.
+- [ ] Change the accent color and clear demo data from Settings.
+
+The Pages Actions run validates the entry page and confirms deployment. These manual interactions should be recorded separately from Android build/device tests.
