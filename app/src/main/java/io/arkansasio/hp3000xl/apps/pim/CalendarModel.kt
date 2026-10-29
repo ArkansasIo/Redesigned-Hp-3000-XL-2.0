@@ -1,7 +1,6 @@
 package io.arkansasio.hp3000xl.apps.pim
 
-data class CalendarEvent(val id: Long, val title: String, val startMillis: Long, val endMillis: Long, val notes: String = "")
-
+/** Canonical calendar event model lives in PimModels.kt. */
 class CalendarModel {
     private val events = mutableListOf<CalendarEvent>()
     fun add(event: CalendarEvent) { events.removeAll { it.id == event.id }; events += event }
