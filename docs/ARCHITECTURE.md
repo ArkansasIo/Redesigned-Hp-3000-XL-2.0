@@ -81,3 +81,10 @@ Files should use Android Storage Access Framework rather than unrestricted files
 ## Legacy software compatibility
 
 A future compatibility layer can expose a sandboxed virtual CPU/runtime for software the user is legally entitled to run. Proprietary Windows CE ROMs and copyrighted system binaries are intentionally not included.
+
+
+## Browser preview architecture (added for GitHub Pages)
+
+The root `index.html` also contains a standalone, responsive browser desktop preview. Its UI apps include a virtual File Explorer, notes editor, editable sample spreadsheet with CSV export, calculator, calendar reminders, contacts, settings and an allow-listed simulated terminal. The preview uses localStorage for demo preferences and personal demo data. It is not the native Android runtime and has no backend or synchronization.
+
+See [WEB_PREVIEW.md](WEB_PREVIEW.md) for the exact feature boundaries and manual smoke tests.
