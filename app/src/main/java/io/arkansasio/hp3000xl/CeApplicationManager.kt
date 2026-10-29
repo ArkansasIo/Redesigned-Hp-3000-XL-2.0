@@ -30,6 +30,7 @@ class CeApplicationManager(private val context: Context) {
             CeApplicationDescriptor("system.calculator", "Calculator", category = "Accessories"),
             CeApplicationDescriptor("network.internet", "Internet", category = "Internet"),
             CeApplicationDescriptor("system.terminal", "Terminal", category = "System"),
+            CeApplicationDescriptor("system.simh-emulator", "SIMH Machine Emulator", category = "System"),
             CeApplicationDescriptor("system.controlpanel", "Control Panel", category = "System"),
             CeApplicationDescriptor("system.taskmanager", "Task Manager", category = "System"),
             CeApplicationDescriptor("system.help", "Help", category = "System"),
