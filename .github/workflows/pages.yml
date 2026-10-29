@@ -6,6 +6,8 @@ on:
     paths:
       - "index.html"
       - ".nojekyll"
+      - "docs/WEB_PREVIEW.md"
+      - "docs/PAGES_DEPLOYMENT.md"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -28,15 +30,19 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Prepare static site
         run: |
+          set -eu
           test -s index.html
           mkdir -p _site
           cp index.html _site/index.html
           touch _site/.nojekyll
       - name: Validate HTML entry point
         run: |
+          set -eu
           test -s _site/index.html
           grep -q '<title>Redesigned HP 3000 XL 2.0</title>' _site/index.html
           grep -q 'name="viewport"' _site/index.html
+          grep -q 'id="startBtn"' _site/index.html
+          grep -q 'id="window"' _site/index.html
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
