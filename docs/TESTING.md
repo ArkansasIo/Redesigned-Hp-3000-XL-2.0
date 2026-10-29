@@ -18,6 +18,8 @@ The CI workflow runs unit tests before packaging APK artifacts. A successful sou
 - SIMH bridge capability: unavailable library and unlinked engine must not be considered launchable.
 - SIMH configuration: default machine, invalid console port and workspace path validation.
 - SIMH media copy: successful copy, exact size limit, oversize rejection, empty input and invalid limits.
+- Pocket Excel cell model: cell storage, clearing, bounds checking, positive dimensions and deterministic row-major snapshots.
+- Package metadata validation: ID syntax, required fields, permission strings and minimum Android API.
 - Core runtime and OS runtime smoke tests.
 - SIMH emulator catalog registration.
 
