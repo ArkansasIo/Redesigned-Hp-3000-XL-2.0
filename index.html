@@ -1,82 +1,68 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#142334">
-  <meta name="description" content="Redesigned HP 3000 XL 2.0 — independent color handheld desktop recreation for Android.">
-  <title>Redesigned HP 3000 XL 2.0</title>
-  <style>
-    :root{color-scheme:dark;--bg:#101923;--panel:#182736;--line:#304557;--text:#eaf2fa;--muted:#a9bdcf;--accent:#8bd3ff;--green:#a5e6c1}
-    *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(ellipse at top,#203b51 0%,var(--bg) 58%);color:var(--text);font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    a{color:var(--accent)} a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-    .wrap{max-width:1080px;margin:auto;padding:28px 20px 64px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0 28px}
-    .brand{font-weight:800;letter-spacing:.04em}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 11px;color:var(--green);font-size:.82rem}
-    .hero{padding:clamp(25px,6vw,68px);border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(37,67,89,.92),rgba(20,32,46,.9));box-shadow:0 24px 80px #0004}
-    .eyebrow{color:var(--accent);font-weight:750;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem}
-    h1{font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.07;letter-spacing:-.045em;margin:12px 0 18px;max-width:800px}
-    .lead{max-width:760px;color:var(--muted);font-size:1.12rem}
-    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-    .button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:750;border:1px solid var(--line);background:#23394c;color:var(--text)}
-    .button.primary{background:var(--accent);color:#0a1b27;border-color:transparent}
-    h2{font-size:1.45rem;margin:0 0 14px}
-    .section{margin-top:38px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
-    .card{background:rgba(24,39,54,.9);border:1px solid var(--line);border-radius:15px;padding:20px}
-    .card h3{margin:0 0 7px;font-size:1.05rem}.card p{margin:0;color:var(--muted)}
-    .status{display:inline-flex;margin-top:12px;font-size:.78rem;color:var(--green);background:#163c34;border-radius:999px;padding:3px 9px}
-    .note{border-left:3px solid var(--accent);padding:4px 0 4px 16px;color:var(--muted)}
-    footer{border-top:1px solid var(--line);padding-top:22px;margin-top:42px;color:var(--muted);font-size:.9rem}
-    @media(prefers-reduced-motion:no-preference){.hero{animation:enter .45s ease-out}@keyframes enter{from{opacity:.6;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#142334">
+<meta name="description" content="Redesigned HP 3000 XL 2.0 — an interactive browser desktop and independent Android handheld recreation.">
+<title>Redesigned HP 3000 XL 2.0</title>
+<style>
+:root{color-scheme:dark;--bg:#101923;--panel:#182736;--panel2:#21394b;--line:#3c586d;--text:#eaf2fa;--muted:#a9bdcf;--accent:#8bd3ff;--green:#a5e6c1;--shadow:0 16px 48px #0008}
+*{box-sizing:border-box}body{margin:0;background:#0b121a;color:var(--text);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit}.shell{min-height:100dvh;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 0,#26445a,#101923 65%)}.topbar{height:38px;background:#101b27;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:10px;font-size:12px}.brand{font-weight:800;letter-spacing:.07em}.sysinfo{color:var(--muted);display:flex;gap:14px}.desktop{position:relative;flex:1;min-height:calc(100dvh - 82px);padding:22px;overflow:hidden}.welcome{max-width:780px;margin:5vh auto 0;text-align:center;pointer-events:none}.logo{font-size:clamp(2rem,6vw,4rem);font-weight:850;letter-spacing:-.055em;line-height:1.1}.welcome p{color:#c0d0de;font-size:1rem}.desktop-icons{display:grid;grid-template-columns:repeat(2,88px);gap:18px;position:absolute;left:18px;top:20px}.appicon{border:1px solid transparent;background:transparent;border-radius:9px;padding:8px 3px;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:12px;text-shadow:0 1px 3px #000}.appicon:hover,.appicon:focus-visible{background:#ffffff14;border-color:#ffffff30}.glyph{font-size:28px;line-height:1.3}.taskbar{height:44px;display:flex;align-items:center;gap:8px;background:#172735;border-top:1px solid #547087;padding:5px 8px;position:sticky;bottom:0;z-index:100}.start{background:linear-gradient(#e4edf3,#9fb4c3);color:#152533;border:1px solid #e7f1f8;border-radius:4px;font-weight:800;padding:7px 13px;box-shadow:inset 0 1px #fff}.taskitems{display:flex;gap:5px;flex:1;overflow:auto}.taskitem{background:#263d50;border:1px solid var(--line);border-radius:3px;padding:6px 10px;white-space:nowrap}.clock{font-variant-numeric:tabular-nums;padding:0 7px}.startmenu{display:none;position:fixed;left:8px;bottom:44px;width:min(330px,calc(100vw - 16px));z-index:200;background:#dce7ef;color:#182938;border:2px solid #eff6fb;box-shadow:var(--shadow);border-radius:7px;overflow:hidden}.startmenu.open{display:block}.menuhead{background:linear-gradient(110deg,#234a67,#132b40);color:white;padding:18px;font-weight:800;font-size:18px}.menuitems{padding:7px}.menurow{width:100%;text-align:left;display:flex;align-items:center;gap:10px;padding:9px 10px;border:0;background:transparent;color:#192e3e;border-radius:4px}.menurow:hover{background:#b9d8ed}.menudivider{height:1px;background:#aabcc9;margin:6px}.window{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:min(650px,calc(100% - 22px));max-height:78%;display:flex;flex-direction:column;background:#dce7ef;color:#1a2b39;border:2px solid #eaf2f8;border-radius:5px;box-shadow:var(--shadow);z-index:20;overflow:hidden}.window[hidden]{display:none}.winhead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;background:linear-gradient(#345b76,#1d3a51);color:white;font-weight:750}.winclose{border:1px solid #e8f1f7;background:#c3d5e1;color:#1b3040;border-radius:3px;width:26px;height:24px;font-weight:900}.winbody{padding:15px;overflow:auto;min-height:140px}.winbody p{margin-top:0}.winbody input,.winbody textarea,.winbody select{width:100%;padding:9px;border:1px solid #92a9b8;border-radius:3px;background:#fff;color:#152633}.winbody textarea{min-height:170px;resize:vertical}.winbody button,.action{background:#d4e1ea;border:1px solid #8198a8;border-radius:4px;color:#1b3040;padding:7px 11px}.winbody button:hover,.action:hover{background:#c1d8e8}.appgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.appcard{padding:14px;background:#eef4f8;border:1px solid #b3c4cf;border-radius:5px;text-align:left;color:#1b3040}.appcard strong{display:block;margin:6px 0 3px}.appcard span{font-size:12px;color:#526a7a}.calc{max-width:330px;margin:auto}.calcdisplay{text-align:right;font-size:25px;margin-bottom:8px}.keygrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.keygrid button{padding:13px 4px;font-size:16px}.terminal{background:#101a22;color:#b9f6cb;padding:12px;border-radius:4px;font:13px/1.6 ui-monospace,monospace;min-height:210px}.terminal input{background:#101a22!important;color:#b9f6cb!important;border:0!important;padding:3px!important;font-family:monospace}.status{color:var(--muted);font-size:12px}.featuregrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:20px auto;max-width:1100px;padding:0 18px 20px}.feature{background:#182736;border:1px solid var(--line);padding:17px;border-radius:10px}.feature h3{margin:0 0 7px}.feature p{margin:0;color:var(--muted)}.below{background:#0d151e;padding:25px 18px 38px;border-top:1px solid #304557}.belowinner{max-width:1100px;margin:auto}.below a{color:var(--accent)}.belowlinks{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}.toast{position:fixed;right:14px;top:52px;background:#183e34;color:#c4ffdf;border:1px solid #4d947a;border-radius:6px;padding:10px 14px;z-index:500;display:none}.toast.show{display:block}
+@media(max-width:560px){.topbar{padding:0 8px}.sysinfo{gap:7px}.sysinfo .hide-small{display:none}.desktop{padding:12px;min-height:calc(100dvh - 82px)}.desktop-icons{grid-template-columns:repeat(2,68px);left:5px;top:10px;gap:8px}.appicon{font-size:11px}.welcome{margin-top:32vh}.logo{font-size:2.3rem}.window{top:5%;max-height:85%;width:calc(100% - 14px)}.taskbar{padding:5px}.start{padding:7px 9px}.taskitem{padding:6px}.clock{font-size:11px}}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">HP 3000 XL · COLOR MOBILE EDITION</div>
-      <span class="pill">Independent recreation</span>
-    </header>
-    <main>
-      <section class="hero">
-        <div class="eyebrow">Handheld desktop project</div>
-        <h1>Classic handheld computing, redesigned for Android.</h1>
-        <p class="lead">Redesigned HP 3000 XL 2.0 is an independent, full-color handheld desktop recreation inspired by the HP 300LX and Windows CE era. This project brings a familiar desktop, built-in productivity tools, and a modular application platform to modern Android devices.</p>
-        <div class="actions">
-          <a class="button primary" href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0">Explore source code</a>
-          <a class="button" href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0/actions">Builds and artifacts</a>
-          <a class="button" href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0/blob/main/README.md">Read documentation</a>
-        </div>
-      </section>
-      <section class="section" aria-labelledby="features"><h2 id="features">Platform highlights</h2>
-        <div class="grid">
-          <article class="card"><h3>Desktop shell</h3><p>Color desktop, Start menu, taskbar, shortcuts, window controls, clock, and display themes.</p></article>
-          <article class="card"><h3>Productivity suite</h3><p>Document and spreadsheet workspaces, contacts, calendar, inbox, tasks, notes, and calculator.</p></article>
-          <article class="card"><h3>System tools</h3><p>Control Panel, task manager, device information, storage and battery status, and settings models.</p></article>
-          <article class="card"><h3>Application platform</h3><p>Kotlin, Jetpack Compose, SQLite persistence, app registry, and Android-backed service APIs.</p></article>
-          <article class="card"><h3>Connectivity foundations</h3><p>Internet workspace, network settings, and a simulated terminal with an allow-listed command set.</p></article>
-          <article class="card"><h3>Android support</h3><p>Designed for Android 10+ with touch-friendly layouts and support for phones, tablets, and handheld PCs.</p></article>
-        </div>
-      </section>
-      <section class="section"><h2>Project status</h2>
-        <div class="card">
-          <p>The repository contains the Android/Kotlin application and an automated APK build workflow. Refer to the source and workflow pages for the latest implementation and build results.</p>
-          <p class="status">Android project · GitHub Actions build</p>
-          <p class="note" style="margin-top:18px">This website is a project overview. It does not run or emulate the Android application in the browser. APK availability depends on successful workflow runs and published artifacts.</p>
-        </div>
-      </section>
-      <section class="section"><h2>Build the Android app</h2>
-        <div class="card"><p>Clone the repository and run the Gradle build from its root directory:</p>
-          <pre><code>./gradlew assembleDebug</code></pre>
-          <p>Expected debug APK: <code>app/build/outputs/apk/debug/app-debug.apk</code></p>
-          <p><a href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0/blob/main/.github/workflows/android.yml">View the Android build workflow</a></p>
-        </div>
-      </section>
-      <section class="section"><h2>Project principles</h2><p class="note">This is an independent implementation. It does not include Microsoft Windows CE or HP proprietary firmware, ROM images, binaries, source code, or copyrighted system assets.</p></section>
-    </main>
-    <footer>© <span id="year">2026</span> ArkansasIo · Independent open-source project · <a href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0/blob/main/LICENSE">License</a></footer>
+<div class="shell">
+ <div class="topbar"><div class="brand">◈ HP 3000 XL <span style="font-weight:400;color:#a9bdcf">2.0</span></div><div class="sysinfo"><span class="hide-small">Color Mobile Edition</span><span id="battery">● System ready</span><span id="topclock">--:--</span></div></div>
+ <main class="desktop" id="desktop">
+  <div class="desktop-icons" aria-label="Desktop applications">
+   <button class="appicon" data-app="explorer"><span class="glyph">📁</span>File Explorer</button>
+   <button class="appicon" data-app="word"><span class="glyph">📝</span>Pocket Word</button>
+   <button class="appicon" data-app="excel"><span class="glyph">📊</span>Pocket Excel</button>
+   <button class="appicon" data-app="calculator"><span class="glyph">🧮</span>Calculator</button>
+   <button class="appicon" data-app="calendar"><span class="glyph">📅</span>Calendar</button>
+   <button class="appicon" data-app="terminal"><span class="glyph">⌨️</span>Terminal</button>
+   <button class="appicon" data-app="settings"><span class="glyph">⚙️</span>Settings</button>
+   <button class="appicon" data-app="about"><span class="glyph">ℹ️</span>About</button>
   </div>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-</body>
-</html>
+  <section class="welcome"><div class="logo">HP 3000 XL</div><p>Classic handheld computing. Reimagined.</p><p style="font-size:12px;color:#9fb4c6">Select an icon or open Start to explore this browser-based desktop preview.</p></section>
+  <section id="window" class="window" role="dialog" aria-modal="false" aria-labelledby="winTitle" hidden><div class="winhead"><span id="winTitle">Application</span><button class="winclose" id="closeWin" aria-label="Close window">×</button></div><div class="winbody" id="winBody"></div></section>
+ </main>
+ <nav class="taskbar" aria-label="Desktop taskbar"><button class="start" id="startBtn" aria-expanded="false">◈ Start</button><div class="taskitems" id="taskitems"><button class="taskitem" data-app="about">HP 3000 XL</button></div><div class="clock" id="clock">--:--</div></nav>
+</div>
+<div class="startmenu" id="startmenu" aria-label="Start menu"><div class="menuhead">HP 3000 XL 2.0<small style="display:block;font-size:12px;font-weight:400;opacity:.8">Personal handheld workspace</small></div><div class="menuitems">
+ <button class="menurow" data-app="explorer">📁 <span>File Explorer</span></button><button class="menurow" data-app="word">📝 <span>Pocket Word — Notes</span></button><button class="menurow" data-app="excel">📊 <span>Pocket Excel — Table</span></button><button class="menurow" data-app="calendar">📅 <span>Calendar</span></button><button class="menurow" data-app="contacts">👤 <span>Contacts</span></button><button class="menurow" data-app="calculator">🧮 <span>Calculator</span></button><button class="menurow" data-app="terminal">⌨️ <span>Terminal</span></button><button class="menurow" data-app="settings">⚙️ <span>Settings</span></button><button class="menurow" data-app="about">ℹ️ <span>About HP 3000 XL</span></button><div class="menudivider"></div><button class="menurow" id="sleepBtn">⏻ <span>Sleep / close menu</span></button>
+</div></div><div class="toast" id="toast" role="status"></div>
+<section class="featuregrid" aria-label="Project capabilities">
+ <article class="feature"><h3>🖥️ Familiar desktop</h3><p>Start menu, taskbar, app windows, shortcuts, and a compact mobile-friendly layout.</p></article>
+ <article class="feature"><h3>📒 Productivity</h3><p>Working browser-preview notes, spreadsheet grid, calendar, contacts, and calculator.</p></article>
+ <article class="feature"><h3>🛠️ Android platform</h3><p>The native app is built with Kotlin and Jetpack Compose. Browser demo and Android app are separate deliverables.</p></article>
+ <article class="feature"><h3>🔐 Local-first demo</h3><p>Notes and contacts are stored in this browser on this device. No server account or sync is provided by this demo.</p></article>
+</section>
+<footer class="below"><div class="belowinner"><strong>Redesigned HP 3000 XL 2.0</strong><p style="color:#a9bdcf">Independent Android handheld desktop recreation inspired by classic mobile computing. This browser preview is a demonstration, not a full Android emulator.</p><div class="belowlinks"><a href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0">Source repository</a><a href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0/actions">Builds and APK artifacts</a><a href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0/blob/main/README.md">Documentation</a><a href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0/blob/main/LICENSE">License</a></div><p class="status">© <span id="year"></span> ArkansasIo · No proprietary HP firmware or Windows CE assets included.</p></div></footer>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s),win=$('#window'),body=$('#winBody'),title=$('#winTitle'),menu=$('#startmenu'),start=$('#startBtn');
+let current='';let calcExpr='';let notes=localStorage.getItem('hp3000-notes')||'Welcome to HP 3000 XL 2.0.\n\nThis note is stored locally in this browser.';let contacts=JSON.parse(localStorage.getItem('hp3000-contacts')||'[]');
+const apps={explorer:['📁 File Explorer',explorer],word:['📝 Pocket Word',word],excel:['📊 Pocket Excel',excel],calculator:['🧮 Calculator',calculator],calendar:['📅 Calendar',calendar],terminal:['⌨️ Terminal',terminal],settings:['⚙️ Settings',settings],about:['ℹ️ About HP 3000 XL',about],contacts:['👤 Contacts',contactApp]};
+function openApp(id){if(!apps[id])id='about';current=id;title.textContent=apps[id][0];body.innerHTML='';apps[id][1]();win.hidden=false;menu.classList.remove('open');start.setAttribute('aria-expanded','false');renderTasks()}
+function closeApp(){win.hidden=true;current='';renderTasks()}
+function renderTasks(){const ids=[...new Set(['about',...(current?[current]:[])])];$('#taskitems').innerHTML=ids.map(id=>'<button class="taskitem" data-task="'+id+'">'+esc(apps[id][0].replace(/^\S+ /,''))+'</button>').join('')}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function explorer(){body.innerHTML='<p><b>My Device</b> &nbsp;›&nbsp; Documents</p><div class="appgrid"><button class="appcard" data-open="word">📝<strong>Notes.txt</strong><span>Open Pocket Word notes</span></button><button class="appcard" data-open="excel">📊<strong>Sheet.csv</strong><span>Open spreadsheet preview</span></button><button class="appcard" data-open="contacts">👤<strong>Contacts</strong><span>Browser-local contact list</span></button><button class="appcard" data-open="about">📄<strong>System info</strong><span>Device and build information</span></button></div><p class="status">Demo virtual folder. Files are not connected to your device storage.</p>'}
+function word(){body.innerHTML='<p>Document · Plain text</p><textarea id="noteText" aria-label="Note editor">'+esc(notes)+'</textarea><p><button id="saveNote">Save note</button> <button id="clearNote">Clear</button></p><p class="status">Saved locally in this browser profile.</p>';$('#saveNote').onclick=()=>{notes=$('#noteText').value;localStorage.setItem('hp3000-notes',notes);toast('Note saved on this device')};$('#clearNote').onclick=()=>{$('#noteText').value=''}}
+function excel(){const rows=[['Item','Quantity','Notes'],['Notebook','3','Office'],['Stylus','1','Input'],['Battery pack','2','Power']];body.innerHTML='<p>Sheet1 · Sample editable cells</p><div style="overflow:auto"><table style="border-collapse:collapse;width:100%;background:white;color:#1b3040"><tbody>'+rows.map((r,i)=>'<tr>'+r.map(c=>'<td contenteditable="true" style="border:1px solid #b6c8d4;padding:9px;min-width:90px;'+(i===0?'font-weight:bold;background:#d2e3ee':'')+'">'+esc(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><p><button id="exportCsv">Export CSV</button></p><p class="status">Edit cells directly. Export downloads the current table as CSV.</p>';$('#exportCsv').onclick=()=>{const csv=[...body.querySelectorAll('tr')].map(tr=>[...tr.children].map(td=>'"'+td.innerText.replace(/"/g,'""')+'"').join(',')).join('\n');download('sheet.csv',csv,'text/csv')}}
+function calculator(){body.innerHTML='<div class="calc"><input class="calcdisplay" id="calcDisplay" value="0" aria-label="Calculator display" readonly><div class="keygrid">'+['7','8','9','÷','4','5','6','×','1','2','3','−','C','0','.','+','(',')','⌫','='].map(k=>'<button data-key="'+k+'">'+k+'</button>').join('')+'</div><p class="status">Basic arithmetic. Invalid expressions are rejected.</p></div>';body.querySelectorAll('[data-key]').forEach(b=>b.onclick=()=>calcKey(b.dataset.key))}
+function calcKey(k){const d=$('#calcDisplay');if(k==='C')calcExpr='';else if(k==='⌫')calcExpr=calcExpr.slice(0,-1);else if(k==='='){try{let e=calcExpr.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');if(!/^[0-9+*/().\s-]+$/.test(e)||!e.trim())throw Error();const v=Function('"use strict";return ('+e+')')();if(!Number.isFinite(v))throw Error();calcExpr=String(v)}catch{calcExpr='';toast('Invalid calculation')}}else calcExpr+=k;d.value=calcExpr||'0'}
+function calendar(){const d=new Date();body.innerHTML='<h2 style="margin:0 0 6px">'+d.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'})+'</h2><p>Calendar preview</p><label for="eventDate">New event date</label><input type="date" id="eventDate" value="'+d.toISOString().slice(0,10)+'"><p><label for="eventText">Event or reminder</label><input id="eventText" placeholder="Add a reminder"></p><p><button id="addEvent">Add reminder</button></p><div id="events"></div>';let events=JSON.parse(localStorage.getItem('hp3000-events')||'[]');const draw=()=>{$('#events').innerHTML=events.length?events.map((e,i)=>'<p style="border-bottom:1px solid #bdcbd4;padding:8px 0"><b>'+esc(e.date)+'</b> — '+esc(e.text)+' <button data-del="'+i+'">Remove</button></p>').join(''):'<p class="status">No saved reminders.</p>';body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{events.splice(+b.dataset.del,1);localStorage.setItem('hp3000-events',JSON.stringify(events));draw()})};$('#addEvent').onclick=()=>{const text=$('#eventText').value.trim();if(!text)return toast('Enter a reminder first');events.push({date:$('#eventDate').value,text});localStorage.setItem('hp3000-events',JSON.stringify(events));$('#eventText').value='';draw()};draw()}
+function contactApp(){body.innerHTML='<p>Contacts · Stored locally in this browser</p><p><input id="contactName" placeholder="Full name"></p><p><input id="contactInfo" placeholder="Email or phone"></p><p><button id="addContact">Add contact</button></p><div id="contactList"></div>';const draw=()=>{$('#contactList').innerHTML=contacts.length?contacts.map((c,i)=>'<p style="padding:8px;border-bottom:1px solid #bdcbd4"><b>'+esc(c.name)+'</b><br>'+esc(c.info)+' <button data-remove="'+i+'">Remove</button></p>').join(''):'<p class="status">No contacts saved.</p>';body.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{contacts.splice(+b.dataset.remove,1);localStorage.setItem('hp3000-contacts',JSON.stringify(contacts));draw()})};$('#addContact').onclick=()=>{const name=$('#contactName').value.trim(),info=$('#contactInfo').value.trim();if(!name)return toast('Enter a name');contacts.push({name,info});localStorage.setItem('hp3000-contacts',JSON.stringify(contacts));$('#contactName').value='';$('#contactInfo').value='';draw()};draw()}
+function terminal(){body.innerHTML='<div class="terminal" id="term"><div>HP3000XL Shell [browser simulation]</div><div>Type help for available commands.</div><div id="termout"></div><div style="display:flex;align-items:center"><span>\C:\&gt;&nbsp;</span><input id="termcmd" aria-label="Terminal command" autocomplete="off" spellcheck="false"></div></div><p class="status">Sandboxed command simulator; it does not execute operating-system commands.</p>';const input=$('#termcmd');input.focus();input.onkeydown=e=>{if(e.key!=='Enter')return;const cmd=input.value.trim().toLowerCase();const out=$('#termout');const lines={help:'Commands: help, ver, date, dir, cls, echo [text], about',ver:'HP 3000 XL browser shell 2.0 (simulation)',date:new Date().toString(),dir:'<DIR> Documents\n<DIR> Settings\n  notes.txt\n  contacts.db (browser storage)',about:'Independent web preview. Native Android services are not exposed here.'};let result=cmd.startsWith('echo ')?esc(input.value.slice(5)):cmd==='cls'?'':(lines[cmd]||'Command not recognized. Type help.');if(cmd==='cls')out.innerHTML='';else out.innerHTML+='<p><b>\C:\&gt; '+esc(input.value)+'</b><br>'+esc(result).replace(/\n/g,'<br>')+'</p>';input.value='';$('#term').scrollTop=$('#term').scrollHeight}}
+function settings(){body.innerHTML='<h3>Display</h3><p>Choose desktop accent</p><div class="appgrid"><button class="appcard" data-accent="#8bd3ff">🔹<strong>Classic Blue</strong></button><button class="appcard" data-accent="#a5e6c1">🟢<strong>Mint</strong></button><button class="appcard" data-accent="#e8c58e">🟠<strong>Amber</strong></button></div><hr style="border:0;border-top:1px solid #bdcbd4"><h3>Browser data</h3><p>Clear this demo’s saved notes, events and contacts from this browser.</p><button id="clearData">Clear local demo data</button><p class="status">These settings only affect this browser preview, not the Android application.</p>';body.querySelectorAll('[data-accent]').forEach(b=>b.onclick=()=>{document.documentElement.style.setProperty('--accent',b.dataset.accent);localStorage.setItem('hp3000-accent',b.dataset.accent);toast('Accent updated')});$('#clearData').onclick=()=>{if(confirm('Clear all HP 3000 XL browser-demo data?')){['hp3000-notes','hp3000-events','hp3000-contacts'].forEach(k=>localStorage.removeItem(k));notes='';contacts=[];toast('Local demo data cleared')}}}
+function about(){body.innerHTML='<div style="text-align:center"><div style="font-size:44px">◈</div><h2>Redesigned HP 3000 XL 2.0</h2><p>Color Mobile Edition · Browser Desktop Preview</p></div><hr style="border:0;border-top:1px solid #bdcbd4"><p><b>Project:</b> Independent handheld desktop recreation</p><p><b>Native app:</b> Android 10+, Kotlin and Jetpack Compose</p><p><b>Web demo:</b> Static GitHub Pages site with local browser storage</p><p><b>Version:</b> 2.0 preview</p><p><a href="https://github.com/ArkansasIo/Redesigned-Hp-3000-XL-2.0">Open source repository ↗</a></p><p class="status">This preview does not emulate Android, run arbitrary programs, or include proprietary HP / Windows CE software.</p>'}
+function download(name,data,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-app]');if(a){openApp(a.dataset.app);return}const task=e.target.closest('[data-task]');if(task){openApp(task.dataset.task);return}const op=e.target.closest('[data-open]');if(op){openApp(op.dataset.open);return}});
+$('#closeWin').onclick=closeApp;start.onclick=()=>{menu.classList.toggle('open');start.setAttribute('aria-expanded',String(menu.classList.contains('open')))};$('#sleepBtn').onclick=()=>{menu.classList.remove('open');start.setAttribute('aria-expanded','false')};document.addEventListener('click',e=>{if(!menu.contains(e.target)&&e.target!==start&&!start.contains(e.target)){menu.classList.remove('open');start.setAttribute('aria-expanded','false')}});
+function tick(){const d=new Date(),s=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});$('#clock').textContent=s;$('#topclock').textContent=s;$('#year').textContent=d.getFullYear()}tick();setInterval(tick,15000);const accent=localStorage.getItem('hp3000-accent');if(accent)document.documentElement.style.setProperty('--accent',accent);
+})();
+</script>
+</body></html>
