@@ -60,3 +60,8 @@ The security model considers:
 ## Recovery
 
 Failed package verification must not overwrite an installed package. Updates should create recoverable application-data backups before destructive migrations.
+
+
+## Browser preview boundary
+
+The static browser preview keeps demo notes, contacts, reminders and theme preference in localStorage on the current origin. This data is not synchronized to a server, but scripts on the same origin can access it; do not store secrets or sensitive personal information there. The terminal is an allow-listed simulator and must never be replaced with arbitrary shell execution. Browser preview behavior does not imply native Android permissions or file access.
