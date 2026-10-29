@@ -32,11 +32,10 @@ class SimhMediaImporter(
         val input = contentResolver.openInputStream(source)
             ?: throw IOException("Android could not open the selected media file.")
 
-        val copied: Long
-        try {
+        val copied = try {
             input.use { stream ->
                 target.outputStream().buffered().use { output ->
-                    copied = SimhMediaCopy.copy(stream, output, maxBytes)
+                    SimhMediaCopy.copy(stream, output, maxBytes)
                 }
             }
         } catch (error: Exception) {
