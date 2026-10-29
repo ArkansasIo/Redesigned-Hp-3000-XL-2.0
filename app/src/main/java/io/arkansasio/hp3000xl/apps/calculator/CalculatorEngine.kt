@@ -50,6 +50,12 @@ class CalculatorEngine {
         }
 
         private fun factor(): Double {
+            if (peek('+') || peek('-')) {
+                val operator = source[index++]
+                val value = factor()
+                return if (operator == '-') -value else value
+            }
+
             if (peek('(')) {
                 index++
                 val value = expression()
@@ -59,8 +65,6 @@ class CalculatorEngine {
             }
 
             val start = index
-            if (peek('+') || peek('-')) index++
-
             var digits = 0
             var decimalPoints = 0
             while (index < source.length) {
